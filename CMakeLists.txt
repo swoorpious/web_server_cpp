@@ -8,4 +8,6 @@ add_executable(web_server_cpp main.cpp
         Network/socket.cpp
         Network/socket.h
         Network/server_socket.cpp
-        Network/server_socket.h)
+        Network/server_socket.h
+        Network/client_socket.cpp
+        Network/client_socket.h)

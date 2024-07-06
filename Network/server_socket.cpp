@@ -14,7 +14,7 @@ ServerSocket::ServerSocket(int domain, int type, int protocol, int port, u_long 
 
 
 int SocketBase::EstablishConnection(int sock, sockaddr_in address)
-{
+{ 
     socklen_t len = sizeof(address);
 
     return bind(sock, reinterpret_cast<sockaddr *>(&address), len);

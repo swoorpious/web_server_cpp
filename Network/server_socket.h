@@ -7,11 +7,11 @@
 #include "socket.h"
 
 
-class ServerSocket: public SocketBase
+class ServerSocket : public SocketBase
 {
 public:
     ServerSocket(int domain, int type, int protocol, int port, u_long local_ip);
-;
+
 
     int EstablishConnection(int sock, struct sockaddr_in address) override;
 };
