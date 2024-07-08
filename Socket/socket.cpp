@@ -10,16 +10,18 @@
 #include <iostream>
 
 
-SocketBase::SocketBase(int domain, int type, int protocol, int port, u_long local_ip)
+SocketBase::SocketBase(SocketInfo server_info, u_long ip)
 {
+    
+    auto [domain, type, protocol, port] = server_info;
     address.sin_family = domain;
     address.sin_port = htons(port);
-    address.sin_addr.s_addr = htonl(local_ip);
+    address.sin_addr.s_addr = htonl(ip);
 
+    
     try
     {
         sock = socket(domain, type, protocol);
-        CheckConnection(sock);
         // connection = SocketBase::EstablishConnection(sock, address);
     }
     catch (int)
@@ -28,8 +30,6 @@ SocketBase::SocketBase(int domain, int type, int protocol, int port, u_long loca
         exit(EXIT_FAILURE);
     }
 
-
-    // if (connection == INVALID_SOCKET)
 }
 
 

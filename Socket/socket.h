@@ -2,27 +2,29 @@
 // Created by Flowey on 6/07/2024.
 //
 
-/*
- * https://learn.microsoft.com/en-us/windows/win32/winsock/windows-sockets-start-page-2
- */
-
-//https://learn.microsoft.com/en-us/windows/win32/api/_winsock/
+// https://learn.microsoft.com/en-us/windows/win32/api/_winsock/
+// https://webcache.googleusercontent.com/search?q=cache:https://medium.com/from-the-scratch/http-server-what-do-you-need-to-know-to-build-a-simple-http-server-from-scratch-d1ef8945e4fa&strip=0&vwsrc=1&referer=medium-parser
 
 
 #ifndef SOCKET_H
 #define SOCKET_H
 
+#define PORT 6969;
+
 #include <winsock2.h>
+#include "../Common/structs.h"
 #include <ws2tcpip.h>
+#pragma comment(lib, "ws2_32.lib")
+
 
 
 class SocketBase
 {
 public:
     virtual ~SocketBase() = default;
-    SocketBase(int domain, int type, int protocol, int port, u_long local_ip);
+    SocketBase(SocketInfo server_info, u_long ip);
     
-    virtual int EstablishConnection(int sock, struct sockaddr_in address) = 0;
+    virtual int EstablishConnection(int sock, sockaddr_in address, ListenSocketInfo listen_info) = 0;
     // void close_connection(int sock);
     static void CheckConnection(int sock);
     
@@ -34,10 +36,11 @@ public:
     // void set_address(struct sockaddr_in address) { this->address = address; };
     void SetConnection(int connection) { this->connection = connection; };
     
-private:
+protected:
     sockaddr_in address{};
-    int sock;
+    SOCKET sock = INVALID_SOCKET;
     int connection;
+    
 };
 
 #endif //SOCKET_H

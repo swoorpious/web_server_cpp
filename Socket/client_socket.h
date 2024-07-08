@@ -10,9 +10,9 @@
 class ClientSocket : public SocketBase
 {
     public:
-    ClientSocket(int domain, int type, int protocol, int port, u_long local_ip);
+    ClientSocket(SocketInfo server, u_long ip, ListenSocketInfo listen);
     
-    int EstablishConnection(int sock, struct sockaddr_in address) override;
+    int EstablishConnection(int sock, sockaddr_in address, ListenSocketInfo listen) override;
 };
 
 

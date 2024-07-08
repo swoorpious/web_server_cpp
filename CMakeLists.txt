@@ -5,9 +5,14 @@ set(CMAKE_CXX_STANDARD 23)
 
 add_executable(web_server_cpp main.cpp
         main.h
-        Network/socket.cpp
-        Network/socket.h
-        Network/server_socket.cpp
-        Network/server_socket.h
-        Network/client_socket.cpp
-        Network/client_socket.h)
+        Socket/socket.cpp
+        Socket/socket.h
+        Socket/server_socket.cpp
+        Socket/server_socket.h
+        Socket/client_socket.cpp
+        Socket/client_socket.h
+        Common/structs.h
+        Server/server.cpp
+        Server/server.h
+        Server/test_server.cpp
+        Server/test_server.h)
