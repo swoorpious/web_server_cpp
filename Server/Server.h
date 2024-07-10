@@ -9,7 +9,7 @@
 // #include "../Common/structs.h"
 #include <cstdio>
 #include <ws2tcpip.h>
-#include "../Socket/server_socket.h"
+#include "../Socket/ServerSocket.h"
 
 #pragma comment(lib, "ws2_32.lib")
 
@@ -42,7 +42,7 @@ protected:
 
 private:
     // const char* hello = "Hello from server";
-    // char recvbuf[1024] = "\0";
+    char recvBuffer[4096] = "\0";
     // int recvbuf_size = sizeof(recvbuf);
     int result;
 };

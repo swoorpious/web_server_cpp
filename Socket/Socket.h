@@ -12,7 +12,7 @@
 #define PORT 6969;
 
 #include <winsock2.h>
-#include "../Common/structs.h"
+#include "../Common/Structs.h"
 #include <ws2tcpip.h>
 #pragma comment(lib, "ws2_32.lib")
 

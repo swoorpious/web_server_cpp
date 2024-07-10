@@ -7,12 +7,13 @@ add_executable(web_server_cpp main.cpp
         main.h
         Socket/socket.cpp
         Socket/socket.h
-        Socket/server_socket.cpp
-        Socket/server_socket.h
-        Socket/client_socket.cpp
-        Socket/client_socket.h
+        Socket/ServerSocket.cpp
+        Socket/ServerSocket.h
+        Socket/ClientSocket.cpp
+        Socket/ClientSocket.h
         Common/structs.h
         Server/server.cpp
         Server/server.h
-        Server/test_server.cpp
-        Server/test_server.h)
+        Server/TestServer.cpp
+        Server/TestServer.h
+        Common/Common.h)

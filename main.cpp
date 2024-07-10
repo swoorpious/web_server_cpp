@@ -1,7 +1,7 @@
 #include "main.h"
 #include <iostream>
-#include "Socket/server_socket.h"
-#include "Server/server.h"
+#include "Socket/ServerSocket.h"
+#include "Server/Server.h"
 
 int main() {
 

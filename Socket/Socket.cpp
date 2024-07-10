@@ -2,7 +2,7 @@
 // Created by Flowey on 6/07/2024.
 //
 
-#include "socket.h"
+#include "Socket.h"
 
 #include <stdio.h>
 #include <stdlib.h>

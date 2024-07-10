@@ -4,7 +4,7 @@
 
 #ifndef CLIENT_SOCKET_H
 #define CLIENT_SOCKET_H
-#include "socket.h"
+#include "Socket.h"
 
 
 class ClientSocket : public SocketBase

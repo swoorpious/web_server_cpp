@@ -7,7 +7,7 @@
 
 
 
-class test_server {
+class TestServer {
 
 };
 

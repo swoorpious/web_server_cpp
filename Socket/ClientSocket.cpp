@@ -2,7 +2,7 @@
 // Created by Flowey on 6/07/2024.
 //
 
-#include "client_socket.h"
+#include "ClientSocket.h"
 
 
 ClientSocket::ClientSocket(SocketInfo server, u_long ip, ListenSocketInfo listen) :
