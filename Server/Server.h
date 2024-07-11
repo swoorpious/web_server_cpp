@@ -5,6 +5,9 @@
 #ifndef SERVER_H
 #define SERVER_H
 
+#define BUFFER_SIZE 4096
+
+
 #include <winsock2.h>
 // #include "../Common/structs.h"
 #include <cstdio>
@@ -34,16 +37,12 @@ protected:
     virtual void Handler();
     virtual void Responder();
     WSADATA wsaData;
-
-
+    
     ServerSocket* server_socket; // this is what we connect to
     SOCKET connection_socket; // this handles the actual connection
-    // wtf i need to look into this 🗿
 
 private:
-    // const char* hello = "Hello from server";
-    char recvBuffer[4096] = "\0";
-    // int recvbuf_size = sizeof(recvbuf);
+    char recvBuffer[BUFFER_SIZE] = "\0";
     int result;
 };
 

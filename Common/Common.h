@@ -33,12 +33,13 @@ namespace Common
 
     template <typename T>
     T* AllocateNullBuffer(size_t BUFFER_SIZE) {
-        
+        return AllocateBuffer<int, int>(BUFFER_SIZE, 0);
     }
     
     void ClearBuffer() {
         
     };
+    
     void FreeBuffer() {
         
     };
