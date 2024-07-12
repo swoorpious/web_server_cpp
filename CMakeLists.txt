@@ -11,7 +11,6 @@ add_executable(web_server_cpp main.cpp
         Socket/ServerSocket.h
         Socket/ClientSocket.cpp
         Socket/ClientSocket.h
-        Common/Structs.h
         Server/Server.cpp
         Server/Server.h
         Server/TestServer.cpp

@@ -2,12 +2,9 @@
 // Created by Flowey on 6/07/2024.
 //
 
-// TODO: implement listening, and server object
-
 #ifndef SERVER_SOCKET_H
 #define SERVER_SOCKET_H
 #include "Socket.h"
-
 
 
 class ServerSocket : public SocketBase
@@ -16,9 +13,9 @@ private:
     // int backlog;
     // int listen;
 public:
-    ServerSocket(SocketInfo server_info, u_long ip, ListenSocketInfo listen_info);
+    ServerSocket(CommonSock::SocketInfo server_info, u_long ip, CommonSock::ListenSocketInfo listen_info);
     
-    int EstablishConnection(int sock, struct sockaddr_in address, ListenSocketInfo listen) override;
+    int EstablishConnection(int sock, struct sockaddr_in address, CommonSock::ListenSocketInfo listen) override;
 };
 
 

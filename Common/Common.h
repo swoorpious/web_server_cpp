@@ -8,8 +8,25 @@
 #include <cstdlib>
 #include <cstring>
 #include <stdexcept>
+#include <winsock2.h>
 
-namespace Common
+#pragma comment(lib, "ws2_32.lib")
+
+namespace CommonSock {
+    struct ListenSocketInfo {
+        bool shouldListen = false;
+        int backlog = SOMAXCONN;
+    };
+
+    struct SocketInfo {
+        int domain = AF_INET;
+        int type = SOCK_STREAM;
+        int protocol = IPPROTO_TCP;
+        int port = 8080;
+    };
+}
+
+namespace CommonMem
 {
     template <typename T, typename U> 
     T* AllocateBuffer(size_t BUFFER_SIZE, U INIT_BUFFER_VALUE)

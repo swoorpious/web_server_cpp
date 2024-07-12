@@ -10,9 +10,9 @@
 class ClientSocket : public SocketBase
 {
     public:
-    ClientSocket(SocketInfo server, u_long ip, ListenSocketInfo listen);
+    ClientSocket(CommonSock::SocketInfo server, u_long ip, CommonSock::ListenSocketInfo listen);
     
-    int EstablishConnection(int sock, sockaddr_in address, ListenSocketInfo listen) override;
+    int EstablishConnection(int sock, sockaddr_in address, CommonSock::ListenSocketInfo listen) override;
 };
 
 

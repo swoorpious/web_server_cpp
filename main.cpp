@@ -5,8 +5,8 @@
 
 int main() {
 
-    SocketInfo server_info = { AF_INET, SOCK_STREAM, IPPROTO_TCP, 6969 };
-    ListenSocketInfo listen_info = { true, 1024};
+    CommonSock::SocketInfo server_info = { AF_INET, SOCK_STREAM, IPPROTO_TCP, 6969 };
+    CommonSock::ListenSocketInfo listen_info = { true, 1024};
     
     std::cout << "Hello, World!" << std::endl;
     std::cout << "Binding Socket..." << std::endl;

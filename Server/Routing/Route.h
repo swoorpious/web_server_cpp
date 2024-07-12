@@ -11,12 +11,16 @@
 #include <vector>
 
 namespace Routing {
+    struct Query {
+
+    };
+    
     struct Route {
         std::string ROUTE;                            // destination name
-        std::string (*RESPONSE)(const std::string &); // takes in std::string& request
+        // std::string (*RESPONSE)(const std::string &); // takes in std::string& request
+        std::vector<Query> QUERY;
     };
 
-    struct Query { };
 }
 
 

@@ -11,7 +11,7 @@
 #include <iostream>
 
 
-ServerBase::ServerBase(/*ServerDefinition::*/SocketInfo server_info, /*ServerDefinition::*/ListenSocketInfo listen_info)
+ServerBase::ServerBase(CommonSock::SocketInfo server_info, CommonSock::ListenSocketInfo listen_info)
 {
     result = WSAStartup(MAKEWORD(2, 2), &wsaData);
     if (result != 0)

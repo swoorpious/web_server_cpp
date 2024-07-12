@@ -12,7 +12,7 @@
 #define PORT 6969;
 
 #include <winsock2.h>
-#include "../Common/Structs.h"
+#include "../Common/Common.h"
 #include <ws2tcpip.h>
 #pragma comment(lib, "ws2_32.lib")
 
@@ -22,9 +22,9 @@ class SocketBase
 {
 public:
     virtual ~SocketBase() = default;
-    SocketBase(SocketInfo server_info, u_long ip);
+    SocketBase(CommonSock::SocketInfo server_info, u_long ip);
     
-    virtual int EstablishConnection(int sock, sockaddr_in address, ListenSocketInfo listen_info) = 0;
+    virtual int EstablishConnection(int sock, sockaddr_in address, CommonSock::ListenSocketInfo listen_info) = 0;
     // void close_connection(int sock);
     static void CheckConnection(int sock);
     

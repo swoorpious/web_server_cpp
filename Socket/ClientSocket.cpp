@@ -5,7 +5,7 @@
 #include "ClientSocket.h"
 
 
-ClientSocket::ClientSocket(SocketInfo server, u_long ip, ListenSocketInfo listen) :
+ClientSocket::ClientSocket(CommonSock::SocketInfo server, u_long ip, CommonSock::ListenSocketInfo listen) :
     SocketBase(server, ip)
 {
     // auto [domain, type, protocol, port] = server;
@@ -15,7 +15,7 @@ ClientSocket::ClientSocket(SocketInfo server, u_long ip, ListenSocketInfo listen
 }
 
 
-int ClientSocket::EstablishConnection(int sock, struct sockaddr_in address, ListenSocketInfo listen)
+int ClientSocket::EstablishConnection(int sock, struct sockaddr_in address, CommonSock::ListenSocketInfo listen)
 {
     // socklen_t len = sizeof(address);
     // return connect(sock, reinterpret_cast<sockaddr *>(&address), len);

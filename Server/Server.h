@@ -22,7 +22,7 @@ class ServerSocket;
 class ServerBase {
 public:
     virtual ~ServerBase() = default;
-    ServerBase(/*ServerDefinition::*/SocketInfo server_info, /*ServerDefinition::*/ListenSocketInfo listen_info);
+    ServerBase(CommonSock::SocketInfo server_info, CommonSock::ListenSocketInfo listen_info);
     virtual void Run();
     virtual void Stop()
     {
