@@ -8,14 +8,7 @@
 #define BUFFER_SIZE 4096
 
 
-#include <winsock2.h>
-// #include "../Common/structs.h"
-#include <cstdio>
-#include <ws2tcpip.h>
-#include "../Socket/ServerSocket.h"
-
-#pragma comment(lib, "ws2_32.lib")
-
+#include "Socket/ServerSocket.h"
 
 class ServerSocket;
 

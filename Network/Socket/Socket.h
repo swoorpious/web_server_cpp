@@ -11,11 +11,7 @@
 
 #define PORT 6969;
 
-#include <winsock2.h>
-#include "../Common/Common.h"
-#include <ws2tcpip.h>
-#pragma comment(lib, "ws2_32.lib")
-
+#include "../../Common/Common.h"
 
 
 class SocketBase
@@ -33,7 +29,6 @@ public:
     int GetSock() const { return sock; };
 
     void SetSock(int sock) { this->sock = sock; };
-    // void set_address(struct sockaddr_in address) { this->address = address; };
     void SetConnection(int connection) { this->connection = connection; };
     
 protected:

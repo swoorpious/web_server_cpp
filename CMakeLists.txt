@@ -5,15 +5,17 @@ set(CMAKE_CXX_STANDARD 23)
 
 add_executable(web_server_cpp main.cpp
         main.h
-        Socket/Socket.cpp
-        Socket/Socket.h
-        Socket/ServerSocket.cpp
-        Socket/ServerSocket.h
-        Socket/ClientSocket.cpp
-        Socket/ClientSocket.h
-        Server/Server.cpp
-        Server/Server.h
-        Server/TestServer.cpp
-        Server/TestServer.h
+        Network/Socket/Socket.cpp
+        Network/Socket/Socket.h
+        Network/Socket/ServerSocket.cpp
+        Network/Socket/ServerSocket.h
+        Network/Socket/ClientSocket.cpp
+        Network/Socket/ClientSocket.h
+        Network/Server.cpp
+        Network/Server.h
+        Network/TestServer.cpp
+        Network/TestServer.h
         Common/Common.h
-        Server/Routing/Route.h)
+        Network/Routing/Routing.cpp
+        Network/Routing/Routing.h
+)

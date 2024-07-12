@@ -26,14 +26,14 @@ ServerBase::ServerBase(CommonSock::SocketInfo server_info, CommonSock::ListenSoc
 
 void ServerBase::Run()
 {
-    printf("Server Running, waiting for new connection...");
+    // printf("Server Running, waiting for new connection...\n");
 
     while (true)
     {
         Acceptor();
         Handler();
 
-        printf("Server stopped.");
+        printf("Server stopped.\n\n");
     }
     
 }

@@ -8,7 +8,9 @@
 #include <cstdlib>
 #include <cstring>
 #include <stdexcept>
+#include <vector>
 #include <winsock2.h>
+#include <ws2tcpip.h>
 
 #pragma comment(lib, "ws2_32.lib")
 
@@ -26,7 +28,35 @@ namespace CommonSock {
     };
 }
 
-namespace CommonMem
+namespace CommonRoute {
+    using namespace std;
+    struct Query {
+        string PARAM;
+        string VALUE;
+    };
+
+    struct Route {
+        string ROUTE;    // destination name
+        string RESPONSE; // takes in string& request — return a file path
+        vector<Query> QUERY;
+
+        Route () {
+            ROUTE = "";
+            RESPONSE = "index.html";
+        }
+
+        Route (const string *route, const string *response, const vector<Query> *query) {
+            ROUTE = *route;
+            RESPONSE = *response;
+            QUERY = *query;
+        }
+    };
+
+
+    inline std::vector<Route> RouteHead;
+}
+
+/*namespace CommonMem
 {
     template <typename T, typename U> 
     T* AllocateBuffer(size_t BUFFER_SIZE, U INIT_BUFFER_VALUE)
@@ -60,7 +90,7 @@ namespace CommonMem
     void FreeBuffer() {
         
     };
-}
+}*/
 
 
 #endif //COMMON_H
