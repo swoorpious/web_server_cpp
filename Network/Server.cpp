@@ -27,7 +27,9 @@ ServerBase::ServerBase(CommonSock::SocketInfo server_info, CommonSock::ListenSoc
 void ServerBase::Run()
 {
     // printf("Server Running, waiting for new connection...\n");
-
+    RoutingBase *s = new RoutingBase();
+    vector<Route> g = s->GetRoutes();
+        
     while (true)
     {
         Acceptor();

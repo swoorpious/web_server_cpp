@@ -45,10 +45,15 @@ namespace CommonRoute {
             RESPONSE = "index.html";
         }
 
-        Route (const string *route, const string *response, const vector<Query> *query) {
-            ROUTE = *route;
-            RESPONSE = *response;
+        Route (const string & route, const string & response, const vector<Query> *query) {
+            ROUTE = route;
+            RESPONSE = response;
             QUERY = *query;
+        }
+
+        Route(const string & route, const string & file) {
+            ROUTE = route;
+            RESPONSE = file;
         }
     };
 

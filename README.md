@@ -3,6 +3,8 @@
 ### Usage
 figure it out 🗿
 
+<hr>
+
 ### Sources
 Microsoft Winsock2 Reference: https://learn.microsoft.com/en-us/windows/win32/winsock/winsock-reference 
 

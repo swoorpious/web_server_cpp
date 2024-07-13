@@ -5,7 +5,8 @@
 #ifndef ROUTING_H
 #define ROUTING_H
 
-#define ROUTES_DIR "Pages"
+// #define ROUTES_DIR "X:/Projects/web_server_cpp/Website/Pages"
+#define ROUTES_DIR "..\\Website\\Pages"
 
 #include "../../Common/Common.h"
 
@@ -15,10 +16,18 @@ class RoutingBase {
 public:
     RoutingBase();
 
-    void AddRoute(const Route *route) { return this-> routes.push_back(*route); }
+    void AddRoute(const Route *route) { return this->routes.push_back(*route); }
     vector<Route> GetRoutes() { return this->routes; }
 
     
+    void AddRoutes (const vector<Route> &routes) { this->routes = routes; }
+    void AddInitialRoutes();
+    
+protected:
+    static vector<string> GetFilesInDir(const string &path);
+    static string ParseFilename();
+    static void ParseRequest() {}
+
 private:
     std::vector<Route> routes;
     
