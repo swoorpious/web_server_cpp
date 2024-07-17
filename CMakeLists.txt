@@ -18,4 +18,5 @@ add_executable(web_server_cpp main.cpp
         Common/Common.h
         Network/Routing/Routing.cpp
         Network/Routing/Routing.h
+        Common/FileFunctions.h
 )

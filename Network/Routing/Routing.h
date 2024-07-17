@@ -5,28 +5,29 @@
 #ifndef ROUTING_H
 #define ROUTING_H
 
-// #define ROUTES_DIR "X:/Projects/web_server_cpp/Website/Pages"
 #define ROUTES_DIR "..\\Website\\Pages"
 
 #include "../../Common/Common.h"
+#include "../../Common/FileFunctions.h"
 
-using namespace CommonRoute;
+using namespace CommonNetwork;
 
 class RoutingBase {
 public:
     RoutingBase();
 
     void AddRoute(const Route *route) { return this->routes.push_back(*route); }
-    vector<Route> GetRoutes() { return this->routes; }
-
-    
     void AddRoutes (const vector<Route> &routes) { this->routes = routes; }
-    void AddInitialRoutes();
-    
+    Route GetRoute(string &URL);
+
+    Route ParseRequest(const char * REQUEST);
+
 protected:
-    static vector<string> GetFilesInDir(const string &path);
-    static string ParseFilename();
-    static void ParseRequest() {}
+    void AddInitialRoutes();
+    // static void ParseRequest() {}
+    vector<Route> GetAllRoutes() { return this->routes; }
+    Route ParseGetRequest(string& routeName);
+    
 
 private:
     std::vector<Route> routes;

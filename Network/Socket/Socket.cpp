@@ -10,7 +10,7 @@
 #include <iostream>
 
 
-SocketBase::SocketBase(CommonSock::SocketInfo server_info, u_long ip)
+SocketBase::SocketBase(WS::SocketInfo server_info, u_long ip)
 {
     
     auto [domain, type, protocol, port] = server_info;

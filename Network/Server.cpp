@@ -11,7 +11,7 @@
 #include <iostream>
 
 
-ServerBase::ServerBase(CommonSock::SocketInfo server_info, CommonSock::ListenSocketInfo listen_info)
+ServerBase::ServerBase(CommonNetwork::SocketInfo server_info, CommonNetwork::ListenSocketInfo listen_info)
 {
     result = WSAStartup(MAKEWORD(2, 2), &wsaData);
     if (result != 0)
@@ -27,8 +27,8 @@ ServerBase::ServerBase(CommonSock::SocketInfo server_info, CommonSock::ListenSoc
 void ServerBase::Run()
 {
     // printf("Server Running, waiting for new connection...\n");
-    RoutingBase *s = new RoutingBase();
-    vector<Route> g = s->GetRoutes();
+    routing = new RoutingBase();
+    // vector<Route> g = s->GetRoutes();
         
     while (true)
     {
@@ -70,19 +70,18 @@ void ServerBase::Handler()
     int bytesReceived = recv(connection_socket, recvBuffer, sizeof(recvBuffer) - 1, 0);
     if (bytesReceived > 0)
     {
+
+        Route response_data = routing->ParseRequest(recvBuffer);
+        
         recvBuffer[bytesReceived] = '\0';
         printf("Received request:\n");
         printf(recvBuffer);
 
+        
         // temp block
-        const char* httpResponse =
-            "HTTP/1.1 200 OK\r\n"
-            "Content-Type: text/html\r\n"
-            "Content-Length: 43\r\n"
-            "\r\n"
-            "<html><body>Hello from the server!</body></html>";
+        string httpResponse = FrameResponse(recvBuffer, &response_data);
 
-        send(connection_socket, httpResponse, strlen(httpResponse), 0);
+        send(connection_socket, httpResponse.c_str(), httpResponse.size(), 0);
         // exit(0);
         // return;
     }
@@ -93,3 +92,23 @@ void ServerBase::Handler()
 }
 
 void ServerBase::Responder() { }
+
+string ServerBase::FrameResponse(char *REQ, const Route *response_data) {
+    // istringstream iss(REQ);
+    // string METHOD, URL;
+    // iss >> METHOD >> URL;
+
+    stringstream RESPONSE;
+    string resBody = ReadFile(response_data->RESPONSE);
+
+    RESPONSE << "HTTP/1.1 200 Ok\r\n";
+    RESPONSE << "Content-Type: text/html\r\n";
+    RESPONSE << "Content-Length: " << resBody.size() << "\r\n";
+    RESPONSE << "\r\n";
+    RESPONSE << resBody;
+
+    auto s = RESPONSE.str();
+    // const char *k = s.c_str();
+    
+    return s;
+}

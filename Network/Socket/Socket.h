@@ -13,14 +13,15 @@
 
 #include "../../Common/Common.h"
 
+namespace WS = CommonNetwork;
 
 class SocketBase
 {
 public:
     virtual ~SocketBase() = default;
-    SocketBase(CommonSock::SocketInfo server_info, u_long ip);
+    SocketBase(WS::SocketInfo server_info, u_long ip);
     
-    virtual int EstablishConnection(int sock, sockaddr_in address, CommonSock::ListenSocketInfo listen_info) = 0;
+    virtual int EstablishConnection(int sock, sockaddr_in address, WS::ListenSocketInfo listen_info) = 0;
     // void close_connection(int sock);
     static void CheckConnection(int sock);
     

@@ -6,15 +6,18 @@
 #define COMMON_H
 
 #include <cstdlib>
-#include <cstring>
+#include <string>
 #include <stdexcept>
 #include <vector>
 #include <winsock2.h>
 #include <ws2tcpip.h>
+#include <unordered_map>
 
 #pragma comment(lib, "ws2_32.lib")
 
-namespace CommonSock {
+namespace CommonNetwork {
+    using namespace std;
+
     struct ListenSocketInfo {
         bool shouldListen = false;
         int backlog = SOMAXCONN;
@@ -26,10 +29,7 @@ namespace CommonSock {
         int protocol = IPPROTO_TCP;
         int port = 8080;
     };
-}
 
-namespace CommonRoute {
-    using namespace std;
     struct Query {
         string PARAM;
         string VALUE;
@@ -37,29 +37,45 @@ namespace CommonRoute {
 
     struct Route {
         string ROUTE;    // destination name
-        string RESPONSE; // takes in string& request — return a file path
+        string RESPONSE; // file path
+        string METHOD; 
         vector<Query> QUERY;
 
         Route () {
             ROUTE = "";
             RESPONSE = "index.html";
+            METHOD = "GET";
         }
 
-        Route (const string & route, const string & response, const vector<Query> *query) {
-            ROUTE = route;
-            RESPONSE = response;
+        Route (const string *route, const string *filePath, const string *method, const vector<Query> *query) {
+            ROUTE = *route;
+            RESPONSE = *filePath;
+            METHOD = *method;
             QUERY = *query;
         }
 
-        Route(const string & route, const string & file) {
-            ROUTE = route;
-            RESPONSE = file;
+        Route(const string *route, const string *filePath, const string &method) {
+            ROUTE = *route;
+            RESPONSE = *filePath;
+            METHOD = method;
         }
     };
 
+    // std::unordered_map<int, string> StatusCodes = {
+    //     {200, "Ok"},
+    //     {201, "Created"},
+    //     {204, "No Content"},
+    //     {400, "Bad Request"},
+    //     {401, "Unauthorized"},
+    //     {403, "Forbidden"},
+    //     {404, "Not Found"},
+    //     {405, "Method Not Allowed"},
+    //     {500, "Internal Server Error"},
+    // };
 
     inline std::vector<Route> RouteHead;
 }
+
 
 /*namespace CommonMem
 {

@@ -13,9 +13,9 @@ private:
     // int backlog;
     // int listen;
 public:
-    ServerSocket(CommonSock::SocketInfo server_info, u_long ip, CommonSock::ListenSocketInfo listen_info);
+    ServerSocket(WS::SocketInfo server_info, u_long ip, WS::ListenSocketInfo listen_info);
     
-    int EstablishConnection(int sock, struct sockaddr_in address, CommonSock::ListenSocketInfo listen) override;
+    int EstablishConnection(int sock, struct sockaddr_in address, WS::ListenSocketInfo listen) override;
 };
 
 

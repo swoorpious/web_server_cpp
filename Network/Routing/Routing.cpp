@@ -5,6 +5,7 @@
 #include "Routing.h"
 #include <filesystem>
 #include <regex>
+#include <sstream>
 
 using namespace std;
 
@@ -12,40 +13,56 @@ RoutingBase::RoutingBase() {
     AddInitialRoutes();
 }
 
+Route RoutingBase::GetRoute(string &URL) {
+    if (URL.empty())
+        return Route();
+
+    if (auto it = std::find_if(routes.begin(), routes.end(), [&URL](const Route &route)
+    {
+        return URL.find(route.ROUTE) == 0;
+    }); it != routes.end()) {
+        return *it;
+    }
+
+    return Route();
+}
+
+Route RoutingBase::ParseRequest(const char * REQUEST) {
+    if (REQUEST == nullptr)
+        return Route();
+
+    const string req(REQUEST);
+    istringstream iss(req);
+    string METHOD, URL;
+    iss >> METHOD >> URL;
+
+    Route route;
+
+    if (METHOD == "GET") {
+        route = ParseGetRequest(URL);
+    }
+
+    return route;
+}
+
 void RoutingBase::AddInitialRoutes() {
-    const vector<string> files = GetFilesInDir(ROUTES_DIR);
-    
-    for (const string file : files) {
-        if (file == "index.html") {
-            const Route s = Route();
-            AddRoute(&s);
+    vector<string> files = GetFilesInDir(ROUTES_DIR);
 
-            continue;
-        }
+    for (const string file : files) {        
+        string FILENAME = "/" + ParseFilename(file, FileName);
+        string FILEPATH = ParseFilename(file, CanonicalPath);
         
-        regex pattern(R"((.*)\.html$)");
-        string processedFilename = regex_replace(file, pattern, "$1");
-        ranges::replace(processedFilename, '.', '_');
-
-        Route s = Route("/" + processedFilename, file);
+        const Route s(&FILENAME, &FILEPATH, "GET");
         AddRoute(&s);
     }
 }
 
-vector<string> RoutingBase::GetFilesInDir(const string &path) {
-    try {
-        vector<string> files;
-        for (const auto& entry : filesystem::directory_iterator(path)) {
-            const string l = canonical(entry.path()).string();
-            files.push_back(l);
-        }
+Route RoutingBase::ParseGetRequest(string& routeName) {
+    // c'mon do something
+    if (&routeName == nullptr)
+        return Route();
+
+    return GetRoute(routeName);
     
-        return files;
-    } catch (const filesystem::filesystem_error& e) {
-        throw e.what();
-    }
 }
 
-string RoutingBase::ParseFilename() {
-    return "";
-}

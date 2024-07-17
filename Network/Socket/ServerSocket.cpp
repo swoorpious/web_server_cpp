@@ -6,7 +6,7 @@
 #include <iostream>
 
 
-ServerSocket::ServerSocket(CommonSock::SocketInfo server_info, u_long ip, CommonSock::ListenSocketInfo listen) :
+ServerSocket::ServerSocket(CommonNetwork::SocketInfo server_info, u_long ip, CommonNetwork::ListenSocketInfo listen) :
     SocketBase(server_info, ip)
 {
     // auto [domain, type, protocol, port] = server;
@@ -16,7 +16,7 @@ ServerSocket::ServerSocket(CommonSock::SocketInfo server_info, u_long ip, Common
 }
 
 
-int ServerSocket::EstablishConnection(int sock, sockaddr_in address, CommonSock::ListenSocketInfo listen_info)
+int ServerSocket::EstablishConnection(int sock, sockaddr_in address, CommonNetwork::ListenSocketInfo listen_info)
 {
     std::cout << "Establishing connection" << std::endl;
     auto [should_listen, backlog] = listen_info;
