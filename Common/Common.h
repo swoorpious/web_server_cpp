@@ -36,29 +36,19 @@ namespace CommonNetwork {
     };
 
     struct Route {
-        string ROUTE;    // destination name
-        string RESPONSE; // file path
+        string ROUTE;        // destination name
+        string RESPONSE;     // file path
         string METHOD; 
-        vector<Query> QUERY;
+        vector<Query> QUERY; // ehhhhh
 
-        Route () {
-            ROUTE = "";
-            RESPONSE = "index.html";
-            METHOD = "GET";
-        }
+        Route () :
+            ROUTE(""), RESPONSE(""), METHOD("") {}
 
-        Route (const string *route, const string *filePath, const string *method, const vector<Query> *query) {
-            ROUTE = *route;
-            RESPONSE = *filePath;
-            METHOD = *method;
-            QUERY = *query;
-        }
+        Route (const string *route, const string *filePath, const string &method, const vector<Query> *query) :
+            ROUTE(*route), RESPONSE(*filePath), METHOD(method), QUERY(*query) {}
 
-        Route(const string *route, const string *filePath, const string &method) {
-            ROUTE = *route;
-            RESPONSE = *filePath;
-            METHOD = method;
-        }
+        Route(const string *route, const string *filePath, const string &method) :
+            ROUTE(*route), RESPONSE(*filePath), METHOD(method) {}
     };
 
     // std::unordered_map<int, string> StatusCodes = {
@@ -73,7 +63,27 @@ namespace CommonNetwork {
     //     {500, "Internal Server Error"},
     // };
 
-    inline std::vector<Route> RouteHead;
+    inline unordered_map<string, string> ContentTypes = {
+        {".html", "text/html"},
+        {".css", "text/css"},
+        {".js", "application/javascript"},
+        {".json", "application/json"},
+        {".png", "image/png"},
+        {".jpg", "image/jpeg"},
+        {".jpeg", "image/jpeg"},
+        {".gif", "image/gif"},
+        {".svg", "image/svg+xml"},
+        {".ico", "image/x-icon"},
+        {".webp", "image/webp"},
+        {".mp4", "video/mp4"},
+        {".mp3", "audio/mpeg"},
+        {".wav", "audio/wav"},
+        {".ogg", "audio/ogg"},
+        {".pdf", "application/pdf"},
+        {".zip", "application/zip"},
+        {".xml", "application/xml"},
+        {".txt", "text/plain"},
+    };
 }
 
 

@@ -17,14 +17,29 @@ Route RoutingBase::GetRoute(string &URL) {
     if (URL.empty())
         return Route();
 
-    if (auto it = std::find_if(routes.begin(), routes.end(), [&URL](const Route &route)
-    {
+    // for Pages
+    // TODO: rewrite a better and more understandable code for this
+    auto it = std::find_if(routes.begin(), routes.end(), [&URL](const Route &route) {
         return URL.find(route.ROUTE) == 0;
-    }); it != routes.end()) {
+    });
+        
+    if (it != routes.end()) {
         return *it;
     }
 
-    return Route();
+    // resolve filename
+    // see if URL matches any dir/file in WEBSITE_DIR
+    try {
+        string req = ParseFilename(WEBSITE_DIR + "\\" + URL, CanonicalPath);
+        if (req.empty()) return Route();
+
+        if (std::filesystem::is_regular_file(req)) {
+            return Route(&URL, &req, "GET");
+        }
+    } catch (const exception &e) {
+        return Route();
+    }
+
 }
 
 Route RoutingBase::ParseRequest(const char * REQUEST) {

@@ -9,14 +9,11 @@ add_executable(web_server_cpp main.cpp
         Network/Socket/Socket.h
         Network/Socket/ServerSocket.cpp
         Network/Socket/ServerSocket.h
-        Network/Socket/ClientSocket.cpp
-        Network/Socket/ClientSocket.h
         Network/Server.cpp
         Network/Server.h
-        Network/TestServer.cpp
-        Network/TestServer.h
         Common/Common.h
         Network/Routing/Routing.cpp
         Network/Routing/Routing.h
         Common/FileFunctions.h
+        Common/json.hpp
 )

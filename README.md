@@ -1,4 +1,12 @@
+# XCS — Extremely Cute Server
+> A Web Server written in C++, with sole purpose of getting fluent with the language and extending knowledge.
+
+
 (reminder for myself to edit this thing)
+
+### Accomplishments
+asdf
+
 
 ### Usage
 figure it out 🗿

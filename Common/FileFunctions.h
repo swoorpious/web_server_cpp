@@ -5,6 +5,7 @@
 #ifndef FILEFUNCTIONS_H
 #define FILEFUNCTIONS_H
 
+#include "Common.h"
 #include <vector>
 #include <regex>
 #include <filesystem>
@@ -47,9 +48,10 @@ inline string ParseFilename(const string &PATH, EParseMethods METHOD, const stri
         s = filesystem::relative(PATH, RELATIVE_TO).string();
         return !s.empty() ? s : "";
 
-    case DirectoryPath:
-        s = filesystem::path(PATH).parent_path().string();
-        return !s.empty() ? s : "";
+    case FileExt:
+        // \.\w+$
+        s = regex_search(PATH, match, regex(R"(\.\w+$)")) ? match.str() : "";
+        return s;
 
     default:
         return filesystem::path(PATH).string();
@@ -71,25 +73,34 @@ inline vector<string> GetFilesInDir(const string &path) {
     }
 }
 
-inline string ReadFile(const string& PATH) { // canonical path
-    // if (filesystem::exists(PATH) || filesystem::is_regular_file(PATH))
-    //     throw runtime_error("File does not exist or is not a regular file:" + PATH);
-    //
-    // vector<char> buffer(filesystem::file_size(PATH));
-    // std::ifstream file(PATH, std::ios::binary);
-    //
-    // if (file.read(buffer.data(), buffer.size())) {
-    //     return string(buffer.data(), buffer.size());
-    // }
-    //
-    // throw std::runtime_error("Failed to read the file: " + PATH);
+inline string GetFileType(const string &PATH) {
+    string Type = ParseFilename(PATH, FileExt);
 
-
-    std::ifstream file(PATH);
-    if (!file) {
-        throw std::runtime_error("Could not open file: " + PATH);
+    if (CommonNetwork::ContentTypes.contains(Type)) {
+        return CommonNetwork::ContentTypes[Type];
     }
-    std::stringstream buffer;
+
+    return "application/octet-stream";
+}
+
+
+inline string ReadFile(const string& PATH) { // canonical path
+    if (!filesystem::exists(PATH) || !filesystem::is_regular_file(PATH))
+        throw runtime_error("File does not exist or is not a regular file: " + PATH);
+
+    string contentType = GetFileType(PATH);
+    ifstream file;
+
+    if (contentType.find("text/") != 0) {
+        file.open(PATH, ios::binary);
+    }
+    else {
+        file.open(PATH);
+    }
+
+    if (!file) throw runtime_error("Could not open file: " + PATH);
+
+    stringstream buffer;
     buffer << file.rdbuf();
     return buffer.str();
 }

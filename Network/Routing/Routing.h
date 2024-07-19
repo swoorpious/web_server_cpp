@@ -5,7 +5,7 @@
 #ifndef ROUTING_H
 #define ROUTING_H
 
-#define ROUTES_DIR "..\\Website\\Pages"
+
 
 #include "../../Common/Common.h"
 #include "../../Common/FileFunctions.h"
@@ -17,7 +17,7 @@ public:
     RoutingBase();
 
     void AddRoute(const Route *route) { return this->routes.push_back(*route); }
-    void AddRoutes (const vector<Route> &routes) { this->routes = routes; }
+    // void AddRoutes (const vector<Route> &routes) { this->routes = routes; }
     Route GetRoute(string &URL);
 
     Route ParseRequest(const char * REQUEST);
@@ -27,7 +27,9 @@ protected:
     // static void ParseRequest() {}
     vector<Route> GetAllRoutes() { return this->routes; }
     Route ParseGetRequest(string& routeName);
-    
+
+    string ROUTES_DIR = "..\\Website\\Pages";
+    string WEBSITE_DIR = "..\\Website";
 
 private:
     std::vector<Route> routes;

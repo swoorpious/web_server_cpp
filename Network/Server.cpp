@@ -11,7 +11,7 @@
 #include <iostream>
 
 
-ServerBase::ServerBase(CommonNetwork::SocketInfo server_info, CommonNetwork::ListenSocketInfo listen_info)
+ServerBase::ServerBase(SocketInfo server_info, ListenSocketInfo listen_info)
 {
     result = WSAStartup(MAKEWORD(2, 2), &wsaData);
     if (result != 0)
@@ -26,9 +26,7 @@ ServerBase::ServerBase(CommonNetwork::SocketInfo server_info, CommonNetwork::Lis
 
 void ServerBase::Run()
 {
-    // printf("Server Running, waiting for new connection...\n");
     routing = new RoutingBase();
-    // vector<Route> g = s->GetRoutes();
         
     while (true)
     {
@@ -65,12 +63,10 @@ void ServerBase::Acceptor()
 void ServerBase::Handler()
 {
     printf("Server handling...\n");
-
-    // char recvBuffer[4096];
+    
     int bytesReceived = recv(connection_socket, recvBuffer, sizeof(recvBuffer) - 1, 0);
     if (bytesReceived > 0)
     {
-
         Route response_data = routing->ParseRequest(recvBuffer);
         
         recvBuffer[bytesReceived] = '\0';
@@ -99,13 +95,14 @@ string ServerBase::FrameResponse(char *REQ, const Route *response_data) {
     // iss >> METHOD >> URL;
 
     stringstream RESPONSE;
-    string resBody = ReadFile(response_data->RESPONSE);
+    string responseBody = ReadFile(response_data->RESPONSE);
+    string contentType = GetFileType(response_data->RESPONSE);
 
     RESPONSE << "HTTP/1.1 200 Ok\r\n";
-    RESPONSE << "Content-Type: text/html\r\n";
-    RESPONSE << "Content-Length: " << resBody.size() << "\r\n";
+    RESPONSE << "Content-Type: " << contentType << "\r\n";
+    RESPONSE << "Content-Length: " << responseBody.size() << "\r\n";
     RESPONSE << "\r\n";
-    RESPONSE << resBody;
+    RESPONSE << responseBody;
 
     auto s = RESPONSE.str();
     // const char *k = s.c_str();
