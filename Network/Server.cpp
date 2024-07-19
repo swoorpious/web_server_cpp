@@ -32,8 +32,6 @@ void ServerBase::Run()
     {
         Acceptor();
         Handler();
-
-        printf("Server stopped.\n\n");
     }
     
 }
@@ -60,6 +58,7 @@ void ServerBase::Acceptor()
     printf("Connection accepted from %s : %d\n", inet_ntoa(clientAddress.sin_addr), ntohs(clientAddress.sin_port));
 }
 
+
 void ServerBase::Handler()
 {
     printf("Server handling...\n");
@@ -67,33 +66,25 @@ void ServerBase::Handler()
     int bytesReceived = recv(connection_socket, recvBuffer, sizeof(recvBuffer) - 1, 0);
     if (bytesReceived > 0)
     {
-        Route response_data = routing->ParseRequest(recvBuffer);
+        const Route response_data = routing->ParseRequest(recvBuffer);
+        // const char * httpResponse = FrameResponse(&response_data).data();
+        const string httpResponse = FrameResponse(&response_data);
         
-        recvBuffer[bytesReceived] = '\0';
+        recvBuffer[bytesReceived] = ' ';
         printf("Received request:\n");
         printf(recvBuffer);
-
         
-        // temp block
-        string httpResponse = FrameResponse(recvBuffer, &response_data);
-
+        // send(connection_socket, httpResponse, sizeof(httpResponse), 0);
         send(connection_socket, httpResponse.c_str(), httpResponse.size(), 0);
-        // exit(0);
-        // return;
+        
     }
-    else
-        printf("Recv failed or connection closed: " + WSAGetLastError());
+    else printf("Recv failed or connection closed: " + WSAGetLastError());
     
     closesocket(connection_socket);
 }
 
-void ServerBase::Responder() { }
 
-string ServerBase::FrameResponse(char *REQ, const Route *response_data) {
-    // istringstream iss(REQ);
-    // string METHOD, URL;
-    // iss >> METHOD >> URL;
-
+string ServerBase::FrameResponse(const Route *response_data) {
     stringstream RESPONSE;
     string responseBody = ReadFile(response_data->RESPONSE);
     string contentType = GetFileType(response_data->RESPONSE);
@@ -104,8 +95,6 @@ string ServerBase::FrameResponse(char *REQ, const Route *response_data) {
     RESPONSE << "\r\n";
     RESPONSE << responseBody;
 
-    auto s = RESPONSE.str();
-    // const char *k = s.c_str();
-    
+    auto s = RESPONSE.str();    
     return s;
 }

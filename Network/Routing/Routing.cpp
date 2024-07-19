@@ -20,7 +20,7 @@ Route RoutingBase::GetRoute(string &URL) {
     // for Pages
     // TODO: rewrite a better and more understandable code for this
     auto it = std::find_if(routes.begin(), routes.end(), [&URL](const Route &route) {
-        return URL.find(route.ROUTE) == 0;
+        return URL == route.ROUTE;
     });
         
     if (it != routes.end()) {
@@ -37,7 +37,7 @@ Route RoutingBase::GetRoute(string &URL) {
             return Route(&URL, &req, "GET");
         }
     } catch (const exception &e) {
-        return Route();
+        return Route(&URL, &ROUTE_NOT_FOUND, "GET");
     }
 
 }
@@ -68,6 +68,20 @@ void RoutingBase::AddInitialRoutes() {
         string FILEPATH = ParseFilename(file, CanonicalPath);
         
         const Route s(&FILENAME, &FILEPATH, "GET");
+        if (FILENAME == "/index") {
+            string j = "/";
+            const Route r(&j, &FILEPATH, "GET");
+            AddRoute(&r);
+            continue;
+        }
+
+        // do not add a 404 route
+        // instead use it as a fallback
+        if (FILENAME == "/404") {
+            ROUTE_NOT_FOUND = FILEPATH;
+            continue;
+        }
+        
         AddRoute(&s);
     }
 }

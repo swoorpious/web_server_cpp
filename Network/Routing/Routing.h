@@ -31,6 +31,8 @@ protected:
     string ROUTES_DIR = "..\\Website\\Pages";
     string WEBSITE_DIR = "..\\Website";
 
+    string ROUTE_NOT_FOUND;
+
 private:
     std::vector<Route> routes;
     

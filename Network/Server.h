@@ -31,17 +31,17 @@ public:
 protected:
     virtual void Acceptor();
     virtual void Handler();
-    virtual void Responder();
+    virtual void Responder() { };
 
-    string FrameResponse(char *REQ, const Route *response_data);
+    static string FrameResponse(const Route *response_data);
     
     WSADATA wsaData;
     
     ServerSocket *server_socket; // this is what we connect to
     SOCKET connection_socket; // this handles the actual connection
-
+    
 private:
-    char recvBuffer[BUFFER_SIZE] = "\0";
+    char recvBuffer[BUFFER_SIZE] = " ";
     int result;
 
     RoutingBase *routing;
