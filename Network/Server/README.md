@@ -5,7 +5,6 @@ tldr;
 > 
 > Persistent server will handle requests on the same socket by creating new threads.
 
-<br>
 
 HTTP persistent connection, also called `HTTP keep-alive`, or `HTTP connection reuse`, is the idea of using a single TCP
 connection to send and receive multiple HTTP requests/responses, as opposed to opening a new connection for every single
