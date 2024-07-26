@@ -1,7 +1,6 @@
 ### Persistent & Sequential Server
 
-> tldr;
-> 
+tldr;
 > Sequential server will create a new socket for every incoming connection.
 > 
 > Persistent server will handle requests on the same socket by creating new threads.
