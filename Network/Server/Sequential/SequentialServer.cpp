@@ -5,15 +5,6 @@
 #include "SequentialServer.h"
 
 
-void SequentialServer::Run() {
-    routing = new RoutingBase();
-
-    while (true) {
-        this->Acceptor();
-        this->Handler();
-    }
-}
-
 
 void SequentialServer::Handler() {
     ServerBase::Handler();
@@ -23,7 +14,7 @@ void SequentialServer::Handler() {
         const Route response_data = routing->ParseRequest(recvBuffer);
         const string httpResponse = FrameResponse(&response_data);
 
-        recvBuffer[bytesReceived] = ' ';
+        recvBuffer[bytesReceived] = '\0';
         printf("Received request:\n");
         printf(recvBuffer);
 

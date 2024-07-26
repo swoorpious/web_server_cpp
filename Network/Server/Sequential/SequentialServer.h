@@ -13,7 +13,14 @@ public:
     SequentialServer(SocketInfo server_info, ListenSocketInfo listen_info)
     : ServerBase(server_info, listen_info) {};
     
-    void Run() override;
+    void Run() override {
+        routing = new RoutingBase();
+
+        while (true) {
+            this->Acceptor();
+            this->Handler();
+        }
+    }
 
 protected:
     void Acceptor() override {

@@ -23,7 +23,7 @@ ServerBase::ServerBase(SocketInfo server_info, ListenSocketInfo listen_info)
 
 void ServerBase::Acceptor()
 {
-    printf("Server Accepting...\n");
+    printf("\nServer Accepting...\n");
     sockaddr_in clientAddress;
     int clientAddressLen = sizeof(clientAddress);
     connection_socket = accept(

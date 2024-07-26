@@ -55,7 +55,7 @@ protected:
     SOCKET connection_socket; // this handles the actual connection
     
     RoutingBase *routing;
-    char recvBuffer[BUFFER_SIZE] = " ";
+    char recvBuffer[BUFFER_SIZE] = "\0";
     int result;
 
 };
