@@ -12,7 +12,6 @@ void PersistentServer::Acceptor() {
 }
 
 void PersistentServer::Handler() {
-    char buffer[BUFFER_SIZE];
     int bytesReceived;
 
     while ((bytesReceived = recv(connection_socket, recvBuffer, sizeof(recvBuffer) - 1, 0)) > 0) {

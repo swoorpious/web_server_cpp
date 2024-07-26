@@ -68,12 +68,12 @@ void RoutingBase::AddInitialRoutes() {
     vector<string> files = GetFilesInDir(ROUTES_DIR);
 
     for (const string file : files) {        
-        string FILENAME = "/" + ParseFilename(file, FileName);
+        string FILENAME = "/" + ParseFilename(file, Path, ROUTES_DIR);
         string FILEPATH = ParseFilename(file, CanonicalPath);
         
         const Route s(&FILENAME, &FILEPATH, "GET");
-        if (FILENAME == "/index") {
-            string j = "/";
+        if (EndsWith(FILENAME, "/index")) {
+            string j = FILENAME.substr(0, FILENAME.size() - 5);
             const Route r(&j, &FILEPATH, "GET");
             AddRoute(&r);
             continue;
@@ -89,6 +89,7 @@ void RoutingBase::AddInitialRoutes() {
         AddRoute(&s);
     }
 }
+
 
 Route RoutingBase::ParseGetRequest(string& routeName) {
     // c'mon do something

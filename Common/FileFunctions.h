@@ -11,13 +11,14 @@
 #include <filesystem>
 #include <string>
 #include <fstream>
+#include <iostream>
 
 
 using namespace std;
 
 enum EParseMethods {
     FileName,        // Just the name of the file without extension
-    FileNameWithExt, // Name of the file with extension
+    Path,            // Relative path without extension
     CanonicalPath,   // Canonical path of the file
     RelativePath,    // Relative path of the file
     FileExt,         // Only the file extension
@@ -30,14 +31,31 @@ inline string ParseFilename(const string &PATH, EParseMethods METHOD, const stri
     switch (METHOD) {
     case FileName:
         // ([^\\/]+)(?=\.[^\\/]+$)
-        s = regex_search(PATH, match, regex( R"(([^\\/]+)(?=\.[^\\/]+$))")) ? match[1].str() : "";
+            
+        s = regex_search(PATH, match, regex( R"(([^\\/]+)(?=\.[^\\/]+$))")) ? match[0].str() : "";
         return s;
         
 
-    case FileNameWithExt:
-        // [^\\/]+$
-        s = regex_search(PATH, match, regex(R"([^\\/]+$)")) ? match[1].str() : "";
-        return s;
+    case Path:
+        // [^\\/]+$ — for file name with path
+        // s = regex_search(PATH, match, regex(R"([^\\/]+$)")) ? match[1].str() : "";
+        // return s;
+
+            
+        //[^/]+/[^/]+(?=\.[^.]+$)   
+
+        if (!RELATIVE_TO.empty()) {
+            // string c = ParseFilename(RELATIVE_TO, CanonicalPath);
+            string c = ParseFilename(PATH, RelativePath, RELATIVE_TO);
+            string j = regex_replace(c, regex(R"(\\)"), "/");
+            
+            s = regex_replace(j, regex(R"(\.[^\\/]+$)"), "");
+
+            return s;
+        }
+
+        return ParseFilename(PATH, FileName);
+            
 
     case CanonicalPath:
         s = filesystem::canonical(PATH).string();
@@ -58,18 +76,30 @@ inline string ParseFilename(const string &PATH, EParseMethods METHOD, const stri
 }
 
 inline vector<string> GetFilesInDir(const string &path) {
+    std::vector<std::string> files;
+
     try {
-        // const string dir_path = ParseFilename(path, DirectoryPath);
-        vector<string> files;
-        for (auto &entry : filesystem::directory_iterator(path)) {
-            // const string l = ParseFilename(entry.path().string(), FileName);
-            files.push_back(entry.path().string());
+        std::vector<filesystem::path> directories{path};
+
+        while (!directories.empty()) {
+            filesystem::path currentDir = directories.back();
+            directories.pop_back();
+
+            for (const auto &entry : filesystem::directory_iterator(currentDir)) {
+                if (entry.is_directory()) {
+                    directories.push_back(entry.path());
+                }
+                else if (entry.is_regular_file()) {
+                    files.push_back(entry.path().string());
+                }
+            }
         }
-        
-        return /*RETURN_TO =*/ files;
     } catch (const filesystem::filesystem_error &e) {
-        throw e.what();
+        std::cerr << "Filesystem error: " << e.what() << std::endl;
+        throw; // Re-throw the exception
     }
+
+    return files;
 }
 
 inline string GetFileType(const string &PATH) {
@@ -102,6 +132,11 @@ inline string ReadFile(const string& PATH) { // canonical path
     stringstream buffer;
     buffer << file.rdbuf();
     return buffer.str();
+}
+
+inline bool EndsWith(const std::string &str, const std::string &suffix) {
+    if (suffix.length() > str.length()) return false;
+    return std::equal(suffix.rbegin(), suffix.rend(), str.rbegin());
 }
 
 #endif //FILEFUNCTIONS_H
