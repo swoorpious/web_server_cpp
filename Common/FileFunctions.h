@@ -41,16 +41,13 @@ inline string ParseFilename(const string &PATH, EParseMethods METHOD, const stri
         // s = regex_search(PATH, match, regex(R"([^\\/]+$)")) ? match[1].str() : "";
         // return s;
 
-            
         //[^/]+/[^/]+(?=\.[^.]+$)   
 
         if (!RELATIVE_TO.empty()) {
-            // string c = ParseFilename(RELATIVE_TO, CanonicalPath);
             string c = ParseFilename(PATH, RelativePath, RELATIVE_TO);
             string j = regex_replace(c, regex(R"(\\)"), "/");
             
             s = regex_replace(j, regex(R"(\.[^\\/]+$)"), "");
-
             return s;
         }
 
