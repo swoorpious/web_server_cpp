@@ -30,7 +30,6 @@ inline string ParseFilename(const string &PATH, EParseMethods METHOD, const stri
     switch (METHOD) {
     case FileName:
         // ([^\\/]+)(?=\.[^\\/]+$)
-        // s = regex_replace(PATH, regex(R"(([^\\/]+)(?=\.[^\\/]+$))"), "");
         s = regex_search(PATH, match, regex( R"(([^\\/]+)(?=\.[^\\/]+$))")) ? match[1].str() : "";
         return s;
         
@@ -42,7 +41,7 @@ inline string ParseFilename(const string &PATH, EParseMethods METHOD, const stri
 
     case CanonicalPath:
         s = filesystem::canonical(PATH).string();
-        return !s.empty() ? s : "";    // PATH has to be canonical lol
+        return !s.empty() ? s : "";
 
     case RelativePath:
         s = filesystem::relative(PATH, RELATIVE_TO).string();

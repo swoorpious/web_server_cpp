@@ -15,7 +15,8 @@ RoutingBase::RoutingBase() {
 
 Route RoutingBase::GetRoute(string &URL) {
     if (URL.empty())
-        return Route();
+        return Route(&URL, &ROUTE_NOT_FOUND, "GET");
+
 
     // for Pages
     // TODO: rewrite a better and more understandable code for this
@@ -37,8 +38,11 @@ Route RoutingBase::GetRoute(string &URL) {
             return Route(&URL, &req, "GET");
         }
     } catch (const exception &e) {
-        return Route(&URL, &ROUTE_NOT_FOUND, "GET");
+        // return Route(&URL, &ROUTE_NOT_FOUND, "GET");
     }
+
+    return Route(&URL, &ROUTE_NOT_FOUND, "GET");
+
 
 }
 

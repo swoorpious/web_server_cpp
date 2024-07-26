@@ -8,8 +8,15 @@
 #define BUFFER_SIZE 4096
 
 
-#include "Socket/ServerSocket.h"
-#include "Routing/Routing.h"
+#include "../Socket/ServerSocket.h"
+#include "../Routing/Routing.h"
+
+#include <utility>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <iostream>
+
 
 class ServerSocket;
 class Routing;
@@ -17,8 +24,6 @@ class Routing;
 class ServerBase {
 public:
     virtual ~ServerBase() = default;
-    ServerBase(SocketInfo server_info, ListenSocketInfo listen_info);
-    virtual void Run();
     virtual void Stop()
     {
         WSACleanup();
@@ -29,22 +34,30 @@ public:
     
     
 protected:
+    ServerBase(SocketInfo server_info, ListenSocketInfo listen_info);
+    virtual void Run() {}
+    
     virtual void Acceptor();
-    virtual void Handler();
-    virtual void Responder() { };
+    virtual void Handler() {
+        // const char * httpResponse = FrameResponse(&response_data).data();
+        // send(connection_socket, httpResponse, sizeof(httpResponse), 0);
+        
+        printf("Server handling...\n");
+    };
 
     static string FrameResponse(const Route *response_data);
-    
+
+
+    // server shit
     WSADATA wsaData;
     
     ServerSocket *server_socket; // this is what we connect to
     SOCKET connection_socket; // this handles the actual connection
     
-private:
+    RoutingBase *routing;
     char recvBuffer[BUFFER_SIZE] = " ";
     int result;
 
-    RoutingBase *routing;
 };
 
 

@@ -4,37 +4,21 @@
 
 #include "Server.h"
 
-#include <utility>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <iostream>
+
 
 
 ServerBase::ServerBase(SocketInfo server_info, ListenSocketInfo listen_info)
 {
+    // init Winsock
     result = WSAStartup(MAKEWORD(2, 2), &wsaData);
-    if (result != 0)
-    {
+    if (result != 0) {
         printf("WSAStartup failed: %d", WSAGetLastError());
-        exit(1);
+        exit(EXIT_FAILURE);
     }
     
     server_socket = new ServerSocket(server_info, INADDR_ANY, listen_info);
-    // Run();
 }
 
-void ServerBase::Run()
-{
-    routing = new RoutingBase();
-        
-    while (true)
-    {
-        Acceptor();
-        Handler();
-    }
-    
-}
 
 
 void ServerBase::Acceptor()
@@ -59,31 +43,6 @@ void ServerBase::Acceptor()
 }
 
 
-void ServerBase::Handler()
-{
-    printf("Server handling...\n");
-    
-    int bytesReceived = recv(connection_socket, recvBuffer, sizeof(recvBuffer) - 1, 0);
-    if (bytesReceived > 0)
-    {
-        const Route response_data = routing->ParseRequest(recvBuffer);
-        // const char * httpResponse = FrameResponse(&response_data).data();
-        const string httpResponse = FrameResponse(&response_data);
-        
-        recvBuffer[bytesReceived] = ' ';
-        printf("Received request:\n");
-        printf(recvBuffer);
-        
-        // send(connection_socket, httpResponse, sizeof(httpResponse), 0);
-        send(connection_socket, httpResponse.c_str(), httpResponse.size(), 0);
-        
-    }
-    else printf("Recv failed or connection closed: " + WSAGetLastError());
-    
-    closesocket(connection_socket);
-}
-
-
 string ServerBase::FrameResponse(const Route *response_data) {
     stringstream RESPONSE;
     string responseBody = ReadFile(response_data->RESPONSE);
@@ -95,6 +54,5 @@ string ServerBase::FrameResponse(const Route *response_data) {
     RESPONSE << "\r\n";
     RESPONSE << responseBody;
 
-    auto s = RESPONSE.str();    
-    return s;
+    return RESPONSE.str();
 }
