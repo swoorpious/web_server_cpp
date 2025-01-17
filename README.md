@@ -13,10 +13,9 @@
   
 </details>
 
-## Usage
+## Build/Use the Project
 Requires Visual Studio, and Ninja build environment: https://ninja-build.org/
 
-### Build/Use the Project
 ```bash
 # Clone the Repository
 > git clone https://github.com/swoorpious/web_server_cpp.git web_server_cpp
